@@ -3,14 +3,13 @@ import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "@/components/ui/toaster";
+import ProtectedRoute from "@/hooks/secureRoutes";
 
 const IBM = IBM_Plex_Mono({
   weight: ['100', '200', '300', '400', '500', '600', '700'],
   subsets: ["latin"],
   variable: "--font-ibm",
 });
-
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,9 +25,12 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={cn('min-h-screen bg-background font-sans antialiased', IBM.variable)}
-        >
-        {children}
-        <Toaster/>
+      >
+        <ProtectedRoute>
+
+          <Toaster />
+          {children}
+        </ProtectedRoute>
       </body>
     </html>
   );

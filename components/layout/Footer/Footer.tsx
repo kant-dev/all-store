@@ -2,6 +2,9 @@ import Link from 'next/link'
 import React from 'react'
 
 export default function Footer() {
+
+  const urlDev = process.env.NEXT_PUBLIC_GITHUB_DEV
+
   return (
     <footer className="border-t flex justify-center">
       <div className="container py-8 md:py-12 px-6">
@@ -35,8 +38,9 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">Subscribe to our newsletter for updates and exclusive offers.</p>
           </div>
         </div>
-        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-          <p>&copy; 2025 Kant Store. All rights reserved.</p>
+        <div className="mt-8 border-t pt-8 text-center text-sm">
+          <p>&copy; 2025 All <span className='text-blue-600'>Store</span>. All rights reserved.</p>
+            <p>Created by: <Link href={`${urlDev}`} target='_blank'><span>kant-dev</span></Link></p>
         </div>
       </div>
     </footer>

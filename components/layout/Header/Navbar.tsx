@@ -10,9 +10,6 @@ export default function Navbar() {
       <Link href="/products" className="transition-colors hover:text-foreground/80">
         Products
       </Link>
-      <Link href="/categories" className="transition-colors hover:text-foreground/80">
-        Categories
-      </Link>
       <Link href="/deals" className="transition-colors hover:text-foreground/80">
         Deals
       </Link>

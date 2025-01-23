@@ -18,18 +18,17 @@ export default function ToggleMenu() {
         <SheetContent side={'left'}>
           <SheetHeader>
             <SheetTitle className='text-start'>
-              <p className='text-2xl'>
-                All <span className='font-bold text-blue-600'>Store</span>
-              </p>
+              <Link href={'/'}>
+                <p className='text-2xl'>
+                  All <span className='font-bold text-blue-600'>Store</span>
+                </p>
+              </Link>
             </SheetTitle>
           </SheetHeader>
           <Separator className='my-4' />
           <div className='flex flex-col gap-y-4'>
             <Link href="/products" className="transition-colors hover:text-foreground/80 text-xl border border-black text-center py-4">
               Products
-            </Link>
-            <Link href="/categories" className="transition-colors hover:text-foreground/80 text-xl border border-black text-center py-4">
-              Categories
             </Link>
             <Link href="/deals" className="transition-colors hover:text-foreground/80 text-xl border border-black text-center py-4">
               Deals
@@ -47,7 +46,7 @@ export default function ToggleMenu() {
                   Login
                 </Link>
               )
-            } 
+            }
           </div>
         </SheetContent>
       </Sheet>

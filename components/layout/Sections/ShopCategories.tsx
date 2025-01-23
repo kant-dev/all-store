@@ -10,7 +10,6 @@ export default async function ShopCategories() {
   
   const categories  = await getCategories()
 
-  console.log(categories)
 
   return (
     <section className='w-full flex justify-center px-4 pt-12'>

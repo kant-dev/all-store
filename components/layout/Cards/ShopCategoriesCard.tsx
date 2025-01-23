@@ -19,7 +19,7 @@ export default function ShopCategoriesCard({ categories }: ShopCategoriesCardPro
     <div className='grid grid-cols-2 lg:grid-cols-4 gap-4 px-0-4'>
       {
         categories.map((category, index) => (
-          <Link href={`/categories/${encodeURIComponent(category.toLowerCase())}`} key={index}>
+          <Link href={`/products`} key={index}>
             <Card className="hover:shadow-lg transition-shadow duration-200">
               <CardHeader>
                 <div className="flex flex-col items-center space-y-2">
