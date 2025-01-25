@@ -9,6 +9,7 @@ import { Product } from '@/types/Product'
 import { ShoppingCartIcon } from 'lucide-react'
 import React, { useState, useEffect } from 'react'
 import DetailsSheet from '../Sheet/DetailsSheet'
+import Checkout from '../Dialog/Checkout'
 
 type CardFilteredProps = {
   categorySelected: string,
@@ -19,14 +20,17 @@ export default function CardFilteredProduct({ categorySelected, products }: Card
 
 
   const [catProdFiltereds, setCatProdFiltereds] = useState<Product[]>([])
-  const {upsertCartItem} = useCartStorage(state => state)
-  const {toast} =  useToast()
-  
+  const { upsertCartItem } = useCartStorage(state => state)
+  const { toast } = useToast()
+
+  const [checkoutOpen, setCheckoutOpen] = useState(false)
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null); // Estado para o produto selecionado
+
 
   useEffect(() => {
     const filtered = products.filter(product => product.category === categorySelected)
     setCatProdFiltereds(filtered)
-  }, [categorySelected, products]) 
+  }, [categorySelected, products])
 
   const handleAddToCart = (product: Product) => {
     upsertCartItem(product, 1)
@@ -38,6 +42,10 @@ export default function CardFilteredProduct({ categorySelected, products }: Card
     })
   }
 
+  const handleBuyNow = (product: Product) => {
+    setSelectedProduct(product); // Define o produto selecionado
+    setCheckoutOpen(true); // Abre o modal de checkout
+  };
 
   return (
     <div className=' grid grid-cols-1 lg:grid-cols-3 gap-6 p-4'>
@@ -59,8 +67,8 @@ export default function CardFilteredProduct({ categorySelected, products }: Card
             </CardContent>
             <CardFooter className='flex justify-between'>
               <div className='flex gap-6'>
-                <Button>Buy</Button>
-                <DetailsSheet product={product}/>
+              <Button onClick={() => handleBuyNow(product)}>Buy</Button>
+              <DetailsSheet product={product} />
               </div>
               <Button onClick={() => handleAddToCart(product)}>
                 <ShoppingCartIcon />
@@ -85,9 +93,9 @@ export default function CardFilteredProduct({ categorySelected, products }: Card
               </CardDescription>
             </CardContent>
             <CardFooter className='flex justify-between'>
-            <div className='flex gap-6'>
-                <Button>Buy</Button>
-                <DetailsSheet product={product}/>
+              <div className='flex gap-6'>
+              <Button onClick={() => handleBuyNow(product)}>Buy</Button>
+              <DetailsSheet product={product} />
                 {/* <Button className='bg-white text-black hover:text-[#fafaf9]' >View Details</Button> */}
               </div>
               <Button onClick={() => handleAddToCart(product)}>
@@ -97,6 +105,7 @@ export default function CardFilteredProduct({ categorySelected, products }: Card
           </Card>
         ))
       )}
+      <Checkout open={checkoutOpen} onOpenChange={setCheckoutOpen} product={selectedProduct} />
     </div>
   )
 }
