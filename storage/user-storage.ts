@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid'; // Biblioteca para gerar UUIDs
 
 interface User {
   id: string;
@@ -42,8 +43,12 @@ export const useAuthStore = create<AuthState>()(
         const salt = bcrypt.genSaltSync(10);
         const passwordHash = bcrypt.hashSync(password, salt);
 
-        // Criar novo usuário
-        const newUser = { ...user, id: crypto.randomUUID(), passwordHash };
+        // Criar novo usuário com UUID
+        const userId = typeof crypto.randomUUID === 'function'
+          ? crypto.randomUUID()
+          : uuidv4(); // Use `uuidv4` caso `crypto.randomUUID` não esteja disponível
+
+        const newUser = { ...user, id: userId, passwordHash };
         set({ user: newUser, isAuthenticated: true });
 
         alert('Cadastro realizado com sucesso!');

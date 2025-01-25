@@ -1,13 +1,14 @@
 import { Separator } from '@/components/ui/separator'
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { isAuth } from '@/hooks/isAuthenticated'
+import { useAuthStore } from '@/storage/user-storage'
 import { MenuIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 
 export default function ToggleMenu() {
 
-  const isLogged = isAuth
+  const isLogged = useAuthStore(state => state.isAuthenticated)
 
   return (
     <div className='lg:hidden'>

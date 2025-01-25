@@ -17,6 +17,7 @@ export default function Cart() {
   const { cart } = useCartStorage(state => state)
   const [checkoutOpen, setCheckoutOpen] = useState(false)
   const {toast} =  useToast()
+  
   const isLogged = isAuth
 
 

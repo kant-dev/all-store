@@ -7,6 +7,7 @@ import { useCartStorage } from '@/storage/cart-storage';
 import { Product } from '@/types/Product';
 import { ShoppingCartIcon } from 'lucide-react';
 import React from 'react';
+import DetailsSheet from '../Sheet/DetailsSheet';
 
 type DealsProductsCardProps = {
   products: Product[];
@@ -61,7 +62,7 @@ export default function DealsProductsCard({ products, categories }: DealsProduct
                 <CardFooter className='absolute top-[85%] flex justify-between w-full'>
                   <div className='flex gap-6'>
                     <Button>Buy</Button>
-                    <Button className='bg-white text-black hover:text-[#fafaf9]'>View Details</Button>
+                    <DetailsSheet product={product}/>
                   </div>
                   <Button onClick={() => handleAddToCart(product)}>
                     <ShoppingCartIcon />
