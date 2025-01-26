@@ -10,6 +10,7 @@ import { ShoppingCartIcon } from "lucide-react";
 import React, { useState } from "react";
 import DetailsSheet from "../Sheet/DetailsSheet";
 import Checkout from "../Dialog/Checkout";
+import ChecktProduct from "../DialogProd/CheckProduct";
 
 type DealsProductsCardProps = {
   products: Product[];
@@ -20,6 +21,8 @@ export default function DealsProductsCard({ products, categories }: DealsProduct
   const { upsertCartItem } = useCartStorage((state) => state);
   const { toast } = useToast();
 
+    const [isOpen, setIsOpen] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   // Lógica para pegar 2 produtos por categoria
   const discountProductsByCategory = categories.map((category) => {
@@ -39,13 +42,16 @@ export default function DealsProductsCard({ products, categories }: DealsProduct
     });
   };
 
-  const handleBuyNow = () => {
+  const handleBuyNow = (product: Product) => {
     toast({
       title: "Comprando Produto",
       description: "Aguarde um momento",
       duration: 3000,
       action: <ToastAction altText="fechar">Fechar</ToastAction>,
     });
+    // Atualiza o estado para o produto selecionado e abre o modal
+    setSelectedProduct(product);
+    setIsOpen(true);
   };
 
   return (
@@ -75,7 +81,7 @@ export default function DealsProductsCard({ products, categories }: DealsProduct
                 </CardContent>
                 <CardFooter className="absolute top-[85%] flex justify-between w-full">
                   <div className="flex gap-6">
-                    <Button onClick={handleBuyNow}>Buy</Button>
+                <Button onClick={() => handleBuyNow(product)}>Buy Now</Button>
                     <DetailsSheet product={product} />
                   </div>
                   <Button onClick={() => handleAddToCart(product)}>
@@ -85,6 +91,7 @@ export default function DealsProductsCard({ products, categories }: DealsProduct
               </Card>
             );
           })}
+          <ChecktProduct open={isOpen} onOpenChange={() => setIsOpen(false)} product={selectedProduct} />
         </div>
       </div>
 
