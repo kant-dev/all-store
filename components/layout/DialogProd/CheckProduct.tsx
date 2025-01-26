@@ -1,12 +1,11 @@
-"use client";
-
 import { Dialog, DialogHeader, DialogTitle, DialogContent, DialogPortal, DialogOverlay } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
 import { useState } from 'react';
-import User from './User';
-import StepAddress from './Address';
-import StepFinaly from './Finaly';
 import { Steps } from '@/types/Steps';
+import User from '../Dialog/User';
+import StepAddress from '../Dialog/Address';
+import { Product } from '@/types/Product';
+import { FinalyProduct } from './FinalyProduct';
 
 const StepTitle: Record<Steps, string> = {
   'user': 'Dados Pessoais',
@@ -15,14 +14,19 @@ const StepTitle: Record<Steps, string> = {
 };
 
 type CheckDialogProps = {
+  product?: Product | null; // Garantir que o produto pode ser null
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
 
-export default function Checkout({ open, onOpenChange }: CheckDialogProps) {
+export default function ChecktProduct({ open, onOpenChange, product }: CheckDialogProps) {
   const [step, setStep] = useState<Steps>('user');
   const stepNumber = Object.keys(StepTitle).indexOf(step) + 1;
   const progressPercent = (stepNumber / Object.keys(StepTitle).length) * 100;
+
+  if (!product) {
+    return <p>Produto não encontrado.</p>;
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -41,7 +45,7 @@ export default function Checkout({ open, onOpenChange }: CheckDialogProps) {
             ) : step === 'address' ? (
               <StepAddress setStep={setStep} />
             ) : (
-              <StepFinaly />
+              <FinalyProduct product={product} />
             )}
           </div>
         </DialogContent>

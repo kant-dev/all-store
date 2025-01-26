@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { Steps } from '@/types/steps'
+import { Steps } from '@/types/Steps'
 
 const formSchema = z.object({
   street: z.string().min(3, 'Informe seu endereço'),
@@ -53,7 +53,7 @@ export default function StepAddress({ setStep }: StepUserProps) {
               </FormItem>
             )}
           />
-                    <FormField
+          <FormField
             control={form.control}
             name='number'
             render={({ field }) => (
@@ -69,7 +69,7 @@ export default function StepAddress({ setStep }: StepUserProps) {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name='complement'
             render={({ field }) => (
@@ -85,7 +85,7 @@ export default function StepAddress({ setStep }: StepUserProps) {
             )}
           />
 
-<FormField
+          <FormField
             control={form.control}
             name='district'
             render={({ field }) => (
@@ -101,10 +101,10 @@ export default function StepAddress({ setStep }: StepUserProps) {
             )}
           />
         </div>
-          <div className='flex justify-between mt-4'>
+        <div className='flex justify-between mt-4'>
           <Button variant="link" onClick={() => setStep('user')}>Voltar</Button>
           <Button type='submit'>Concluir</Button>
-          </div>
+        </div>
       </form>
     </Form>
   )

@@ -4,7 +4,7 @@ import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { useCartStorage } from "@/storage/cart-storage";
 import { ShoppingBagIcon } from "lucide-react";
-import React, { useMemo, useState } from "react";
+import React, { useState, useMemo } from "react";
 import CartProduct from "./CartProduct";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -14,20 +14,19 @@ import Checkout from "../Dialog/Checkout";
 import { useAuthStore } from "@/storage/user-storage";
 
 export default function Cart() {
-  const { cart } = useCartStorage((state) => state);
+  const { cart, clearCart } = useCartStorage((state) => state);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const { toast } = useToast();
-
   const isLogged = useAuthStore((state) => state.isAuthenticated);
 
-  // Calcula o subtotal usando useMemo para evitar recalcular em cada renderização
+  // Calcula o subtotal
   const subtotal = useMemo(() => {
     return cart.reduce((acc, item) => acc + item.quantity * (item.product.price || 0), 0);
   }, [cart]);
 
   const handleCheckout = () => {
     if (isLogged) {
-      setCheckoutOpen(!checkoutOpen);
+      setCheckoutOpen(true);
       toast({
         title: "Checkout",
         description: "Your order has been successfully created!",
@@ -42,23 +41,20 @@ export default function Cart() {
         duration: 3000,
         action: (
           <ToastAction altText="login">
-            <Link href={"/login"}>Log In</Link>
+            <Link href="/login">Log In</Link>
           </ToastAction>
         ),
       });
     }
   };
-  
+
 
   return (
     <div className="flex items-center justify-center px-4">
       <Sheet>
         <SheetTrigger className="relative shadow-sm shadow-neutral-300 flex items-center p-2 rounded-md">
           <ShoppingBagIcon size={30} />
-          {/* Mostra o alerta no ícone do carrinho */}
-          {cart.length > 0 && (
-            <span className="absolute size-4 bg-red-500 rounded-full -right-1 -top-1"></span>
-          )}
+          {cart.length > 0 && <span className="absolute size-4 bg-red-500 rounded-full -right-1 -top-1"></span>}
         </SheetTrigger>
 
         <SheetContent className="border-2 border-black">
@@ -81,22 +77,18 @@ export default function Cart() {
             </div>
 
             <Separator className="my-4" />
-            <div className="text-center w-full">
+            <div className="text-center w-full flex flex-col gap-y-4">
               <Button
-                className={`w-full rounded-none font-bold ${
-                  cart.length === 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
-                }`}
+                className={`w-full rounded-none font-bold ${cart.length === 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""}`}
                 disabled={cart.length === 0}
                 onClick={handleCheckout}
               >
                 Checkout
               </Button>
               <Button
-                className={`w-full rounded-none font-bold ${
-                  cart.length === 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""
-                }`}
+                className={`w-full rounded-none font-bold ${cart.length === 0 ? "bg-gray-300 text-gray-500 cursor-not-allowed" : ""}`}
                 disabled={cart.length === 0}
-                onClick={handleCheckout}
+                onClick={() => clearCart()}
               >
                 Clean Cart
               </Button>
