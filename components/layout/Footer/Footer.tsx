@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Footer() {
 
-  const urlDev = process.env.NEXT_PUBLIC_GITHUB_DEV
+  const urlDev = 'https://github.com/kant-dev'
 
   return (
     <footer className="border-t flex justify-center">
